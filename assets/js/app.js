@@ -23,14 +23,31 @@ var svg = d3
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+// Initial Params
+var chosenXAxis = "age"
+
 // Retrieve data from the CSV file and execute everything below
-d3.csv("assets/data/data.csv", function(err, stateHealth){
-    if (err) throw err;
+d3.csv("assets/data/data.csv", function(stateHealth){
+    console.log(stateHealth);
 
     // parse through data
     stateHealth.forEach(function(data){
-        data
+        data.smokes = +data.smokes;
+        data.age = +data.age;
     })
 
+    //xLinearScale
+    var xLinearScale = xScale(stateHealth, chosenXAxis);
 
+    // y scale function
+    var yLinearScale = d3.scaleLinear()
+        .domain([0,d3.max(stateHealth, d => d.smokes)])
+        .range([height, 0]);
+
+    // Initial axis funcs
+    var bottomAxis = d3.axisBottom(xLinearScale);
+    var leftAxis = d3.leftAxis(yLinearScale);
+
+    // append x axis
+    
 })
