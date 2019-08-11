@@ -65,7 +65,7 @@ d3.csv("assets/data/data.csv")
         .attr("cx", d => xLinearScale(d.age))
         .attr("cy", d => yLinearScale(d.smokes))
         .attr("r", 15)
-        .attr("fill", "pink")
+        .attr("fill", "lightsteelblue")
         .attr("opacity", ".5");
 
     // append text to circles
