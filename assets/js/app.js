@@ -37,7 +37,7 @@ d3.csv("assets/data/data.csv")
 
     //xLinearScale
     var xLinearScale = d3.scaleLinear()
-        .domain([28,d3.max(stateHealth, d => d.age)+1])
+        .domain([29.5,d3.max(stateHealth, d => d.age)+1])
         .range([0, width]);
 
     // yLinearScale
@@ -71,9 +71,39 @@ d3.csv("assets/data/data.csv")
         .attr("opacity", ".5");
 
     // initialize tool tip
+    var toolTip = d3.tip()
+      .attr("class", "tooltip")
+      .offset([0, 10])
+    // .direction('n')
+      .html(function(d) {
+        return (`${d.state}<br>Age: ${d.age}<br>Smokes (%): ${d.smokes}`);
+      });
 
+    chartGroup.call(toolTip);
 
+    // event listeners to display/hide tooltip
+    // mouseover event
+    circlesGroup.on("mouseover", function(data) {
+        toolTip.show(data, this);
+      })
+        // mouseout event
+        .on("mouseout", function(data, index) {
+          toolTip.hide(data);
+        });
+  
+    // axes labels
+    chartGroup.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left + 40)
+        .attr("x", 0 - (height / 2))
+        .attr("dy", "1em")
+        .attr("class", "axisText")
+        .text("Smokes (%)");
 
+    chartGroup.append("text")
+        .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
+        .attr("class", "axisText")
+        .text("Age (Median)");
 
-
+  
 })
