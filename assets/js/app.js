@@ -39,19 +39,19 @@ d3.csv("assets/data/data.csv")
     });
 
     //xLinearScale
-    var xLinearScale = d3.scaleLinear()
-        .domain([d3.max(stateHealth, d => d.age)])
-        .range([0, width]);
-    // var xLinearScale = xScale(stateHealth, chosenXAxis);
+    // var xLinearScale = d3.scaleLinear()
+    //     .domain([d3.max(stateHealth, d => d.age)])
+    //     .range([0, width]);
+    var xLinearScale = xScale(stateHealth, chosenXAxis);
 
     // y scale function
-    var yLinearScale = d3.scaleLinear()
-        .domain([0,d3.max(stateHealth, d => d.smokes)])
-        .range([height, 0]);
-    // var yLinearScale = yScale(stateHealth, chosenYAxis);
+    // var yLinearScale = d3.scaleLinear()
+    //     .domain([0,d3.max(stateHealth, d => d.smokes)])
+    //     .range([height, 0]);
+    var yLinearScale = yScale(stateHealth, chosenYAxis);
 
     // Initial axis
-    var bottomAxis = d3.axisBottom(xLinearScale).ticks(7);
+    var bottomAxis = d3.axisBottom(xLinearScale);
     var leftAxis = d3.axisLeft(yLinearScale);
 
     // append x axis
