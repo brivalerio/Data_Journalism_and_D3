@@ -84,6 +84,10 @@ d3.csv("assets/data/data.csv")
     var toolTip = d3.tip()
       .attr("class", "tooltip")
       .offset([0, 10])
+      .style("border", "solid")
+      .style("border-color", "lightsteelblue")
+      .style("background-color", "lightsteelblue")
+      .style("border-radius", "8px")
     // .direction('n')
       .html(function(d) {
         return (`${d.state}<br>Age: ${d.age}<br>Smokes (%): ${d.smokes}`);
