@@ -32,7 +32,6 @@ d3.csv("assets/data/data.csv")
     stateHealth.forEach(function(data){
         data.age = +data.age;
         data.smokes = +data.smokes;
-   
     });
 
     //xLinearScale
@@ -51,7 +50,6 @@ d3.csv("assets/data/data.csv")
 
     // append x axis
     chartGroup.append("g")
-        
         .attr("transform", `translate(0, ${height})`)
         .call(bottomAxis);
 
@@ -66,9 +64,21 @@ d3.csv("assets/data/data.csv")
         .append("circle")
         .attr("cx", d => xLinearScale(d.age))
         .attr("cy", d => yLinearScale(d.smokes))
-        .attr("r", 20)
+        .attr("r", 15)
         .attr("fill", "pink")
         .attr("opacity", ".5");
+
+    // append text to circles
+    var circlesGroup = chartGroup.selectAll()
+        .data(stateHealth)
+        .enter()
+        .append("text")
+        .attr("x", d => xLinearScale(d.age))
+        .attr("y", d => yLinearScale(d.smokes)+6)
+        .style("font-size", "17px")
+        .style("text-anchor", "middle")
+        .style('fill', "black")
+        .text(d => (d.abbr));
 
     // initialize tool tip
     var toolTip = d3.tip()
@@ -79,17 +89,20 @@ d3.csv("assets/data/data.csv")
         return (`${d.state}<br>Age: ${d.age}<br>Smokes (%): ${d.smokes}`);
       });
 
-    chartGroup.call(toolTip);
+    // display/hide tooltip on mouseover/mouseout
+    circlesGroup.call(toolTip)
+      .on("mouseover", toolTip.show)
+      .on("mouseout", toolTip.hide);
 
     // event listeners to display/hide tooltip
     // mouseover event
-    circlesGroup.on("mouseover", function(data) {
-        toolTip.show(data, this);
-      })
-        // mouseout event
-        .on("mouseout", function(data, index) {
-          toolTip.hide(data);
-        });
+    // circlesGroup.on("mouseover", function(data) {
+    //     toolTip.show(data, this);
+    //   })
+    //     // mouseout event
+    //     .on("mouseout", function(data, index) {
+    //       toolTip.hide(data);
+    //     });
   
     // axes labels
     chartGroup.append("text")
@@ -105,5 +118,4 @@ d3.csv("assets/data/data.csv")
         .attr("class", "axisText")
         .text("Age (Median)");
 
-  
-})
+});
